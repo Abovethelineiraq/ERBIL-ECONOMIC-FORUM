@@ -54,12 +54,12 @@ h1{font-size:clamp(40px,7.4vw,82px);line-height:1.03;letter-spacing:-.035em;font
 /* hero (simplified) */
 .hero{min-height:calc(100vh - 68px);min-height:calc(100svh - 68px);display:flex;align-items:center;padding:64px 0}
 .hero .wrap{width:100%}
-.logos2{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:28px;margin-bottom:44px}
-.logos2 .main{height:96px;width:auto;max-width:44vw;display:block}
-.logos2 .sep{width:1px;height:64px;background:rgba(255,255,255,.28)}
-.logos2 .gov{background:#fff;border-radius:14px;padding:10px 14px;display:flex}
-.logos2 .gov img{height:68px;width:auto;max-width:36vw;display:block}
-@media (max-width:520px){.logos2{gap:18px}.logos2 .sep{display:none}.logos2 .main{height:72px}.logos2 .gov img{height:52px}}
+.logos2{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:32px;margin-bottom:44px}
+.logos2 .main{height:72px;width:auto;max-width:42vw;object-fit:contain;display:block}
+.logos2 .sep{width:1px;height:44px;background:rgba(255,255,255,.25)}
+.logos2 .gov{height:58px;width:80px;background:transparent;border:0;border-radius:0;padding:0;box-shadow:none;display:flex;align-items:center;justify-content:center}
+.logos2 .gov img{height:58px;width:58px;max-width:100%;object-fit:contain;display:block}
+@media (max-width:520px){.logos2{gap:18px;margin-bottom:32px}.logos2 .sep{display:none}.logos2 .main{height:58px;max-width:62vw}.logos2 .gov{height:48px;width:58px}.logos2 .gov img{height:48px;width:48px}}
 .hero h1{font-size:clamp(34px,6vw,64px);max-width:none;margin:0 0 16px}
 .lab{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--sky);font-size:15px;margin:0 0 22px}
 .lab span{width:40px;height:1px;background:rgba(143,180,255,.55)}
