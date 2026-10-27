@@ -110,6 +110,8 @@ input,select,textarea{width:100%;min-height:50px;font:inherit;font-size:16px;pad
 input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px solid rgba(143,180,255,.55);outline-offset:0}
 .pf{display:flex}.pf span{display:grid;place-items:center;padding:0 14px;background:var(--grey);border:1.5px solid #c3ccdb;border-right:0;border-radius:10px 0 0 10px;font-weight:600}.pf input{border-radius:0 10px 10px 0}
 .hp{position:absolute;left:-9999px}.note{font-size:14px;color:var(--mute);margin:14px 0 0}
+.form-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}.email-btn{background:#eef3ff;color:var(--navy)}.email-btn:hover{background:#dfe9ff}
+@media (max-width:520px){.form-actions{grid-template-columns:1fr}}
 #msg{margin-top:16px;font-weight:600;min-height:1.4em}#msg.ok{color:#127a4d}#msg.bad{color:#b3261e}
 /* footer */
 footer{background:var(--navy2);color:#c9d6f2;padding:64px 0 32px;font-size:15.5px}
@@ -204,7 +206,7 @@ footer h3{color:#fff;font-size:15px;margin-bottom:12px}footer a{display:block;te
 
 <section id="register"><div class="wrap">
  <h2 style="text-align:center">Register your interest</h2>
- <p class="lead" style="text-align:center;margin:0 auto">Fill in the form. Your details open in WhatsApp, and our team follows up personally.</p>
+ <p class="lead" style="text-align:center;margin:0 auto">Fill in the form, then choose whether to continue by WhatsApp or email.</p>
  <form id="f" class="fb" novalidate>
   <p class="note" style="margin:0 0 18px">Fields marked <i style="color:#c0392b;font-style:normal">*</i> are required.</p>
   <div class="fg">
@@ -219,7 +221,7 @@ footer h3{color:#fff;font-size:15px;margin-bottom:12px}footer a{display:block;te
    <div class="full"><label for="notes">Notes (optional)</label><textarea id="notes" rows="3" placeholder="Anything we should know?"></textarea></div>
   </div>
   <div class="hp" aria-hidden="true"><label>Leave empty<input id="hp" tabindex="-1" autocomplete="off"></label></div>
-  <p style="margin-top:24px"><button class="btn n" type="submit" id="send" style="width:100%">Submit and continue on WhatsApp</button></p>
+  <div class="form-actions" style="margin-top:24px"><button class="btn n" type="submit" id="send">Submit via WhatsApp</button><button class="btn email-btn" type="button" id="emailSend">Submit via Email</button></div>
   <div id="msg" role="status" aria-live="polite"></div>
   <p id="wasend" hidden><a class="btn wag" id="wal" target="_blank" rel="noopener" href="#">WhatsApp did not open? Tap here to send your details</a></p>
  </form>
@@ -294,29 +296,40 @@ ls.addEventListener("click",function(e){if(e.target.tagName==="A"){ls.classList.
  tick();setInterval(tick,30000)})();
 
 /* form */
-var f=$("f"),msg=$("msg"),btn=$("send");
+var f=$("f"),msg=$("msg"),btn=$("send"),emailBtn=$("emailSend");
+var EMAIL_TO=""; // Optional: set the organiser's email address here.
 function bad(t,id){msg.textContent=t;msg.className="bad";if(id)$(id).focus()}
-f.addEventListener("submit",function(e){
- e.preventDefault();msg.className="";
+function readRegistration(){
+ msg.className="";
  var v=function(i){return $(i).value.trim()};
  var req=[["company","Please enter your company name."],["name","Please enter your full name."],["title","Please enter your job title."],["phone","Please enter your phone number."],["email","Please enter your email."],["sector","Please select your sector."],["interest","Please select what you are interested in."]];
- for(var i=0;i<req.length;i++){if(!v(req[i][0]))return bad(req[i][1],req[i][0])}
+ for(var i=0;i<req.length;i++){if(!v(req[i][0])){bad(req[i][1],req[i][0]);return null}}
  var digits=v("phone").replace(/\D/g,"").replace(/^(00964|964)/,"").replace(/^0+/,"");
-var site=v("website");if(site&&!/^https?:\/\//i.test(site))site="https://"+site;
- try{if(site){var u=new URL(site);if(u.hostname.indexOf(".")<1||/\s/.test(site))throw 0;site=u.href.replace(/\/$/,"")}}catch(x){return bad("Enter a valid website, for example https://company.com.","website")}
- if(digits.length<9||digits.length>10)return bad("Enter a valid phone number, for example 750 123 4567.","phone");
- if(!$("email").checkValidity())return bad("Please enter a valid email address.","email");
- if(v("hp"))return;
- if(SCRIPT_URL.indexOf("http")!==0)return bad("The form is not connected yet. Please call us instead.");
+ var site=v("website");if(site&&!/^https?:\/\//i.test(site))site="https://"+site;
+ try{if(site){var u=new URL(site);if(u.hostname.indexOf(".")<1||/\s/.test(site))throw 0;site=u.href.replace(/\/$/,"")}}catch(x){bad("Enter a valid website, for example https://company.com.","website");return null}
+ if(digits.length<9||digits.length>10){bad("Enter a valid phone number, for example 750 123 4567.","phone");return null}
+ if(!$("email").checkValidity()){bad("Please enter a valid email address.","email");return null}
+ if(v("hp"))return null;
+ if(SCRIPT_URL.indexOf("http")!==0){bad("The form is not connected yet. Please call us instead.");return null}
  var d={company:v("company"),website:site,name:v("name"),title:v("title"),phone:"+964 "+digits,email:v("email"),sector:v("sector"),interest:v("interest"),notes:v("notes"),lang:"en"};
  var text="Erbil Economic Forum - new registration\nCompany: "+d.company+"\nWebsite: "+(d.website||"-")+"\nName: "+d.name+"\nTitle: "+d.title+"\nPhone: "+d.phone+"\nEmail: "+d.email+"\nSector: "+d.sector+"\nInterest: "+d.interest+"\nNotes: "+(d.notes||"-");
- var url=wa(text),w=window.open(url,"_blank");
- btn.disabled=true;msg.textContent="Sending…";
- fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)})
-  .then(function(){f.reset();msg.textContent="Thank you. Your registration was received. Tap send in WhatsApp to complete it.";msg.className="ok";if(!w){$("wal").href=url;$("wasend").hidden=false}})
-  .catch(function(){bad("We could not submit your details. Please try again or call +964 750 220 5555.");$("wal").href=url;$("wasend").hidden=false})
-  .finally(function(){btn.disabled=false});
-});
+ return {d:d,text:text,url:wa(text),subject:"Erbil Economic Forum registration"};
+}
+function sendRegistration(mode){
+ var data=readRegistration();if(!data)return;
+ var w=mode==="wa"?window.open(data.url,"_blank"):null;
+ btn.disabled=true;emailBtn.disabled=true;msg.textContent="Sending…";
+ fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(data.d)})
+  .then(function(){
+   f.reset();msg.className="ok";
+   if(mode==="wa"){msg.textContent="Thank you. Your registration was received. Tap send in WhatsApp to complete it.";if(!w){$("wal").href=data.url;$("wasend").hidden=false}}
+   else{msg.textContent="Thank you. Your registration was received. Your email app will open with the details ready to send.";var mailto="mailto:"+EMAIL_TO+"?subject="+encodeURIComponent(data.subject)+"&body="+encodeURIComponent(data.text);window.location.href=mailto}
+  })
+  .catch(function(){bad("We could not submit your details. Please try again or call +964 750 220 5555.");if(mode==="wa"){$("wal").href=data.url;$("wasend").hidden=false}})
+  .finally(function(){btn.disabled=false;emailBtn.disabled=false});
+}
+f.addEventListener("submit",function(e){e.preventDefault();sendRegistration("wa")});
+emailBtn.addEventListener("click",function(){sendRegistration("email")});
 </script>
 </body>
 </html>
