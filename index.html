@@ -51,25 +51,34 @@ h1{font-size:clamp(40px,7.4vw,82px);line-height:1.03;letter-spacing:-.035em;font
 .facts small{display:block;color:#9fb0d6;font-size:14px}.facts b{font-size:20px;font-weight:600}
 #cd{display:flex;gap:10px;margin-top:36px}#cd div{background:rgba(255,255,255,.08);border-radius:12px;padding:10px 16px;min-width:76px;text-align:center}
 #cd b{display:block;font-size:30px;line-height:1.1}#cd span{font-size:13px;color:#9fb0d6}
-/* hero (simplified) */
-.hero{min-height:calc(100vh - 68px);min-height:calc(100svh - 68px);display:flex;align-items:center;padding:64px 0}
-.hero .wrap{width:100%}
-.logos2{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:32px;margin-bottom:44px}
-.logos2 .main{height:72px;width:auto;max-width:42vw;object-fit:contain;display:block}
-.logos2 .sep{width:1px;height:44px;background:rgba(255,255,255,.25)}
-.logos2 .gov{height:78px;width:96px;background:transparent;border:0;border-radius:0;padding:0;box-shadow:none;display:flex;align-items:center;justify-content:center}
-.logos2 .gov img{height:78px;width:78px;max-width:100%;object-fit:contain;display:block}
-@media (max-width:520px){.logos2{gap:18px;margin-bottom:32px}.logos2 .sep{display:none}.logos2 .main{height:58px;max-width:62vw}.logos2 .gov{height:60px;width:72px}.logos2 .gov img{height:60px;width:60px}}
-.hero h1{font-size:clamp(34px,6vw,64px);max-width:none;margin:0 0 16px}
-.lab{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--sky);font-size:15px;margin:0 0 22px}
-.lab span{width:40px;height:1px;background:rgba(143,180,255,.55)}
-.hero .sub{margin:0 auto 34px;max-width:36ch;font-size:clamp(18px,2.2vw,22px)}
-.info{background:var(--navy);color:#fff;border-radius:24px;padding:32px}
-.info #cd{margin:0 0 24px}
-.info dl{margin:0}.info dl div{padding:14px 0;border-top:1px solid rgba(255,255,255,.16)}
-.info dt{font-size:14px;color:#9fb0d6}.info dd{margin:0;font-size:19px;font-weight:600}
+/* hero — full-bleed image with readable gradient overlay */
+.hero{min-height:calc(100vh - 68px);min-height:calc(100svh - 68px);display:flex;align-items:center;position:relative;isolation:isolate;overflow:hidden;color:#fff;background:#071426}
+.hero-media{position:absolute;inset:0;z-index:0;background:#071426}
+.hero-media picture,.hero-media img{display:block;width:100%;height:100%}
+.hero-media img{object-fit:cover;object-position:center center}
+.hero-media::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(5,16,34,.96) 0%,rgba(5,16,34,.82) 28%,rgba(5,16,34,.38) 58%,rgba(5,16,34,.16) 100%),linear-gradient(0deg,rgba(5,16,34,.72) 0%,transparent 42%,rgba(5,16,34,.25) 100%)}
+.hero .wrap{width:100%;position:relative;z-index:2}
+.hero-grid{display:block}
+.hero-copy{max-width:620px;padding:76px 0 86px}
+.logos2{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:24px;margin-bottom:42px}
+.logos2 .main{height:64px;width:auto;max-width:42vw;object-fit:contain;display:block}
+.logos2 .sep{width:1px;height:42px;background:rgba(255,255,255,.36)}
+.logos2 .gov{height:68px;width:84px;background:transparent;border:0;border-radius:0;padding:0;box-shadow:none;display:flex;align-items:center;justify-content:center}
+.logos2 .gov img{height:68px;width:68px;max-width:100%;object-fit:contain;display:block}
+.hero-copy h1{font-size:clamp(42px,6.4vw,82px);line-height:1.02;max-width:10ch;margin:0 0 20px;letter-spacing:-.045em;text-shadow:0 4px 22px rgba(0,0,0,.34)}
+.lab{display:flex;align-items:center;gap:14px;color:#e5b878;font-size:15px;letter-spacing:.02em;margin:0 0 20px}
+.lab span{width:38px;height:1px;background:rgba(229,184,120,.82)}
+.hero .sub{margin:0 0 34px;max-width:38ch;font-size:clamp(17px,2.1vw,22px);color:#e3ebf8;text-shadow:0 2px 13px rgba(0,0,0,.32)}
+.hero-visual{display:none}
+@media (max-width:720px){.hero{min-height:calc(100svh - 68px);align-items:flex-end}.hero-media img{object-position:center center}.hero-media::after{background:linear-gradient(90deg,rgba(5,16,34,.9) 0%,rgba(5,16,34,.58) 78%,rgba(5,16,34,.38) 100%),linear-gradient(0deg,rgba(5,16,34,.94) 0%,rgba(5,16,34,.58) 48%,rgba(5,16,34,.12) 100%)}.hero-copy{max-width:100%;padding:58px 0 52px}.hero-copy h1{font-size:clamp(39px,11vw,62px);max-width:12ch}.logos2{gap:14px;margin-bottom:30px}.logos2 .sep{display:none}.logos2 .main{height:52px;max-width:62vw}.logos2 .gov{height:56px;width:64px}.logos2 .gov img{height:56px;width:56px}}
+@media (prefers-reduced-motion:reduce){.hero-media img{scroll-behavior:auto}}
 /* sections */
 section{padding:104px 0}.grey{background:var(--grey)}
+#overview{background:#fff;color:var(--ink)}
+#overview .info{background:#203a70 !important;color:#fff;border:0;border-radius:24px;padding:40px;box-shadow:0 16px 38px rgba(16,29,58,.16)}
+#overview .info #cd div{background:rgba(255,255,255,.09);border-radius:12px}
+#overview .info dt,#overview .info #cd span{color:#aebedc}
+#overview .info dd{color:#fff}
 h2{font-size:clamp(30px,4.6vw,48px);line-height:1.1;letter-spacing:-.025em;font-weight:800;margin:0 0 16px}
 h3{font-size:20px;line-height:1.3;margin:0 0 8px}
 .lead{font-size:clamp(18px,2.2vw,22px);color:var(--mute);max-width:36em;margin:0}
@@ -126,17 +135,20 @@ footer h3{color:#fff;font-size:15px;margin-bottom:12px}footer a{display:block;te
 </nav>
 
 <header class="hero" id="top">
+ <div class="hero-media" aria-hidden="true"><picture><source media="(max-width:720px)" srcset="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/phone.png"><img src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/pc.png" alt=""></picture></div>
  <svg class="pat" fill="#fff" viewBox="35 252 305 206" aria-hidden="true"><use href="#mk"/></svg>
- <div class="wrap">
-  <div class="logos2">
-   <img class="main" src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/LOGO.png" alt="Erbil Economic Forum logo">
-   <span class="sep" aria-hidden="true"></span>
-   <div class="gov"><img src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/logo2.png" alt="Government logo"></div>
+ <div class="wrap hero-grid">
+  <div class="hero-copy">
+   <div class="logos2">
+    <img class="main" src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/LOGO.png" alt="Erbil Economic Forum logo">
+    <span class="sep" aria-hidden="true"></span>
+    <div class="gov"><img src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/logo2.png" alt="Government logo"></div>
+   </div>
+   <h1>Erbil Economic Forum</h1>
+   <p class="lab"><span></span>A public–private economic forum<span></span></p>
+   <p class="sub">A one-day forum shaping the economic future of the Kurdistan Region.</p>
+   <a class="btn g" href="#register">Register your interest</a>
   </div>
-  <h1>Erbil Economic Forum</h1>
-  <p class="lab"><span></span>A public–private economic forum<span></span></p>
-  <p class="sub">A one-day forum shaping the economic future of the Kurdistan Region.</p>
-  <a class="btn g" href="#register">Register your interest</a>
  </div>
 </header>
 
@@ -223,7 +235,7 @@ footer h3{color:#fff;font-size:15px;margin-bottom:12px}footer a{display:block;te
   <div><a class="brand" href="#top" style="color:#fff;margin-bottom:14px"><img src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/LOGO.png" alt="Erbil Economic Forum" height="40"></a><p style="margin:0">Gathering ideas. Connecting sectors. Shaping dialogue.</p></div>
   <div><h3>Quick links</h3><a href="#about">About</a><a href="#sponsorship">Sponsorship</a><a href="#register">Register</a></div>
   <div><h3>Contact</h3><a class="ph" href="tel:+9647502205555">+964 750 220 5555</a><a class="ph" href="tel:+9647702205555">+964 770 220 5555</a><a class="ph" href="tel:+9647802205555">+964 780 220 5555</a><a id="wafoot" href="#" target="_blank" rel="noopener">WhatsApp</a></div>
-  <div><h3>Follow</h3><a href="https://www.instagram.com/erbil.economic.forum" target="_blank" rel="noopener">Instagram</a><a href="https://facebook.com/share/19SoNgBi6r" target="_blank" rel="noopener">Facebook</a><h3 style="margin-top:18px">Venue</h3><span id="fv"></span></div>
+  <div><h3>Follow</h3><a href="https://www.instagram.com/erbil.economic.forum" target="_blank" rel="noopener">Instagram</a><a href="https://facebook.com/share/19SoNgBi6r" target="_blank" rel="noopener">Facebook</a><a href="https://www.linkedin.com/company/145352837" target="_blank" rel="noopener">LinkedIn</a><h3 style="margin-top:18px">Venue</h3><span id="fv"></span></div>
  </div>
  <div class="cp">© 2026 Erbil Economic Forum · Above The Line (ATL). Details you submit are used only for forum communication.</div>
 </div></footer>
