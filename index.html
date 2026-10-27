@@ -168,7 +168,7 @@ footer h3{color:#fff;font-size:15px;margin-bottom:12px}footer a{display:block;te
   <p class="note" style="margin:0 0 18px">Fields marked <i style="color:#c0392b;font-style:normal">*</i> are required.</p>
   <div class="fg">
    <div><label for="company">Company <i>*</i></label><input id="company" autocomplete="organization" placeholder="Company name"></div>
-   <div><label for="website">Company website <i>*</i></label><input id="website" type="text" inputmode="url" autocomplete="url" placeholder="https://company.com"></div>
+   <div><label for="website">Company website (optional)</label><input id="website" type="text" inputmode="url" autocomplete="url" placeholder="https://company.com"></div>
    <div><label for="name">Full name <i>*</i></label><input id="name" autocomplete="name" placeholder="Your full name"></div>
    <div><label for="title">Job title <i>*</i></label><input id="title" autocomplete="organization-title" placeholder="e.g. Managing Director"></div>
    <div><label for="phone">Phone / WhatsApp <i>*</i></label><div class="pf"><span>+964</span><input id="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="750 123 4567"></div></div>
@@ -202,7 +202,7 @@ footer h3{color:#fff;font-size:15px;margin-bottom:12px}footer a{display:block;te
 
 <script>
 /* ============ EDIT CONTENT HERE ============ */
-var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz45O5ESxY4JS96e_BYS7ze78lr6LCCJhdkbS7HTwPK0m5MM_rX69DbZrrYK5674RNiGg/exec";   // Google Apps Script web app
+var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyHrbNUeopMyy9HTatuOyMCJVuGjcGWaiqDd1PTExsL_4eZIhpYP-h1I8FRihXtDtohGA/exec";   // Google Apps Script web app
 var WHATSAPP = "9647502205555";                // receives registrations (no +)
 var C = {
   date: "23 November 2026", dateISO: "2026-11-23T09:00:00+03:00",
@@ -259,17 +259,17 @@ function bad(t,id){msg.textContent=t;msg.className="bad";if(id)$(id).focus()}
 f.addEventListener("submit",function(e){
  e.preventDefault();msg.className="";
  var v=function(i){return $(i).value.trim()};
- var req=[["company","Please enter your company name."],["website","Please enter your company website."],["name","Please enter your full name."],["title","Please enter your job title."],["phone","Please enter your phone number."],["email","Please enter your email."],["sector","Please select your sector."],["interest","Please select what you are interested in."]];
+ var req=[["company","Please enter your company name."],["name","Please enter your full name."],["title","Please enter your job title."],["phone","Please enter your phone number."],["email","Please enter your email."],["sector","Please select your sector."],["interest","Please select what you are interested in."]];
  for(var i=0;i<req.length;i++){if(!v(req[i][0]))return bad(req[i][1],req[i][0])}
  var digits=v("phone").replace(/\D/g,"").replace(/^(00964|964)/,"").replace(/^0+/,"");
-var site=v("website");if(!/^https?:\/\//i.test(site))site="https://"+site;
- try{var u=new URL(site);if(u.hostname.indexOf(".")<1||/\s/.test(site))throw 0;site=u.href.replace(/\/$/,"")}catch(x){return bad("Enter a valid website, for example https://company.com.","website")}
+var site=v("website");if(site&&!/^https?:\/\//i.test(site))site="https://"+site;
+ try{if(site){var u=new URL(site);if(u.hostname.indexOf(".")<1||/\s/.test(site))throw 0;site=u.href.replace(/\/$/,"")}}catch(x){return bad("Enter a valid website, for example https://company.com.","website")}
  if(digits.length<9||digits.length>10)return bad("Enter a valid phone number, for example 750 123 4567.","phone");
  if(!$("email").checkValidity())return bad("Please enter a valid email address.","email");
  if(v("hp"))return;
  if(SCRIPT_URL.indexOf("http")!==0)return bad("The form is not connected yet. Please call us instead.");
  var d={company:v("company"),website:site,name:v("name"),title:v("title"),phone:"+964 "+digits,email:v("email"),sector:v("sector"),interest:v("interest"),notes:v("notes"),lang:"en"};
- var text="Erbil Economic Forum - new registration\nCompany: "+d.company+"\nWebsite: "+d.website+"\nName: "+d.name+"\nTitle: "+d.title+"\nPhone: "+d.phone+"\nEmail: "+d.email+"\nSector: "+d.sector+"\nInterest: "+d.interest+"\nNotes: "+(d.notes||"-");
+ var text="Erbil Economic Forum - new registration\nCompany: "+d.company+"\nWebsite: "+(d.website||"-")+"\nName: "+d.name+"\nTitle: "+d.title+"\nPhone: "+d.phone+"\nEmail: "+d.email+"\nSector: "+d.sector+"\nInterest: "+d.interest+"\nNotes: "+(d.notes||"-");
  var url=wa(text),w=window.open(url,"_blank");
  btn.disabled=true;msg.textContent="Sending…";
  fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)})
