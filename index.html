@@ -32,13 +32,15 @@ a{color:inherit}img,svg{max-width:100%}
 .btn.n{background:var(--navy);color:#fff}.btn.n:hover{background:var(--navy2)}
 .btn.sm{min-height:40px;padding:8px 18px;font-size:15px}
 /* nav */
-nav{position:sticky;top:0;z-index:50;background:rgba(16,29,58,.94);backdrop-filter:blur(14px);color:#fff}
+nav{position:sticky;top:0;z-index:50;background:rgba(16,29,58,.94);backdrop-filter:blur(14px);color:#fff;transition:background .35s ease,box-shadow .35s ease}
+nav.scrolled{background:rgba(7,20,38,.98);box-shadow:0 8px 24px rgba(0,0,0,.18)}
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff}.brand img{height:40px;width:auto;display:block}.lk{font-size:10px;line-height:1.2;letter-spacing:.12em;font-weight:400}
-.links{display:flex;align-items:center;gap:22px;font-size:14.5px}.links a{text-decoration:none;opacity:.85}.links a:hover{opacity:1}
+.links{display:flex;align-items:center;gap:22px;font-size:14.5px}.links a{text-decoration:none;opacity:.85;position:relative;transition:color .3s ease,opacity .3s ease}.links a:not(.btn)::after{content:"";position:absolute;left:0;right:100%;bottom:-8px;height:2px;background:#e5b878;transition:right .3s ease}.links a:hover,.links a.active{opacity:1;color:#e5b878}.links a.active::after,.links a:hover::after{right:0}
 .menu{display:none;background:none;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;width:44px;height:44px;font-size:22px;cursor:pointer}
 @media (max-width:1020px){.menu{display:block}.links{display:none;position:absolute;top:68px;left:0;right:0;background:var(--navy2);flex-direction:column;align-items:stretch;gap:0;padding:8px 24px 20px}
 .links.open{display:flex}.links a{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1)}.links .btn{margin-top:14px;border:0}}
+.scroll-progress{position:fixed;top:68px;left:0;width:0;height:3px;background:#e5b878;z-index:60;box-shadow:0 0 12px rgba(229,184,120,.5);transition:width .12s linear}
 /* hero */
 .hero{position:relative;background:var(--navy);color:#fff;padding:96px 0 72px;overflow:hidden}
 .hero .pat{position:absolute;right:-6%;top:50%;transform:translateY(-50%);width:min(70vw,760px);opacity:.07;pointer-events:none}
@@ -97,8 +99,15 @@ h3{font-size:20px;line-height:1.3;margin:0 0 8px}
 .av2 div{border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:26px;background:rgba(255,255,255,.05)}
 .av2 b{display:block;font-size:20px;margin-bottom:6px}.av2 span{color:var(--sky);font-size:17px}
 /* venue / trust / faq */
-.vimg{margin:48px 0 0;position:relative;max-width:880px}
-.vimg img{display:block;width:100%;height:auto;border-radius:20px;box-shadow:0 10px 30px rgba(16,29,58,.18);border:1px solid var(--line)}
+.venue-full{position:relative;min-height:clamp(620px,86vh,900px);display:flex;align-items:center;overflow:hidden;background:var(--navy) url("https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/44955208.png") center center/cover no-repeat;color:#fff}
+.venue-full::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,16,34,.9) 0%,rgba(5,16,34,.62) 42%,rgba(5,16,34,.2) 100%),linear-gradient(0deg,rgba(5,16,34,.7) 0%,transparent 55%,rgba(5,16,34,.25) 100%);z-index:1;pointer-events:none}
+.venue-full .wrap{position:relative;width:100%;z-index:2;padding-top:70px;padding-bottom:70px}
+.venue-full h2,.venue-full h3,.venue-full .lead{color:#fff;text-shadow:0 3px 18px rgba(0,0,0,.32)}
+.venue-full .lead{max-width:34em;color:#dce6f5}
+.venue-full .btn.n{background:#fff;color:var(--navy)}
+.vimg{position:absolute;inset:0;margin:0;max-width:none;z-index:0}
+.vimg img{display:block;width:100%;height:100%;object-fit:cover;object-position:center center;border-radius:0;border:0;box-shadow:none}
+.venue-full .vimg{display:none}
 .vimg figcaption{position:absolute;left:16px;bottom:16px;background:rgba(16,29,58,.88);color:#fff;font-size:14px;font-weight:600;padding:4px 14px;border-radius:99px}
 details{border-bottom:1px solid var(--line);padding:18px 0}summary{cursor:pointer;font-weight:600;font-size:19px;list-style:none;display:flex;justify-content:space-between;gap:16px}
 summary::after{content:"+";color:var(--navy);font-size:26px;line-height:1}details[open] summary::after{content:"–"}details p{margin:12px 0 0;color:var(--mute)}
@@ -113,6 +122,24 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
 .form-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}.email-btn{background:#eef3ff;color:var(--navy)}.email-btn:hover{background:#dfe9ff}
 @media (max-width:520px){.form-actions{grid-template-columns:1fr}}
 #msg{margin-top:16px;font-weight:600;min-height:1.4em}#msg.ok{color:#127a4d}#msg.bad{color:#b3261e}
+/* luxury motion system */
+body.js-ready .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .9s cubic-bezier(.22,1,.36,1)}
+body.js-ready .reveal.reveal-left{transform:translateX(-34px)}
+body.js-ready .reveal.reveal-right{transform:translateX(34px)}
+body.js-ready .reveal.visible{opacity:1;transform:none}
+body.js-ready .hero-media img{animation:heroImageIn 1.5s cubic-bezier(.22,1,.36,1) both}
+body.js-ready .hero-copy .logos2{animation:heroCopyIn .8s .18s cubic-bezier(.22,1,.36,1) both}
+body.js-ready .hero-copy h1{animation:heroCopyIn .95s .36s cubic-bezier(.22,1,.36,1) both}
+body.js-ready .hero-copy .lab{animation:heroCopyIn .8s .56s cubic-bezier(.22,1,.36,1) both}
+body.js-ready .hero-copy .sub{animation:heroCopyIn .8s .68s cubic-bezier(.22,1,.36,1) both}
+body.js-ready .hero-copy .btn{animation:heroCopyIn .8s .82s cubic-bezier(.22,1,.36,1) both}
+@keyframes heroImageIn{from{opacity:.35;transform:scale(1.06)}to{opacity:1;transform:scale(1)}}
+@keyframes heroCopyIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.btn{position:relative;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease,background .3s ease}.btn::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:#e5b878;transition:width .35s ease}.btn:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(16,29,58,.2)}.btn:hover::after{width:100%}
+.card,.stat,.av2>div,.info{transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s ease,border-color .45s ease}.card:hover,.stat:hover,.av2>div:hover{transform:translateY(-6px);box-shadow:0 18px 38px rgba(16,29,58,.14);border-color:rgba(229,184,120,.65)}
+.vimg img{transition:transform 1s cubic-bezier(.22,1,.36,1),box-shadow .5s ease}.vimg:hover img{transform:scale(1.025);box-shadow:0 20px 42px rgba(16,29,58,.22)}
+#toTop{position:fixed;right:24px;bottom:24px;width:46px;height:46px;border:1px solid rgba(255,255,255,.16);border-radius:50%;background:var(--navy);color:#fff;font-size:22px;line-height:1;z-index:55;opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease,background .3s ease}#toTop.show{opacity:1;pointer-events:auto;transform:none}#toTop:hover{background:#203a70}
+@media (prefers-reduced-motion:reduce){body.js-ready .reveal,body.js-ready .hero-media img,body.js-ready .hero-copy .logos2,body.js-ready .hero-copy h1,body.js-ready .hero-copy .lab,body.js-ready .hero-copy .sub,body.js-ready .hero-copy .btn{animation:none;transition:none;transform:none;opacity:1}.btn,.card,.stat,.av2>div,.vimg img,#toTop{transition:none}}
 /* footer */
 footer{background:var(--navy2);color:#c9d6f2;padding:64px 0 32px;font-size:15.5px}
 .fc{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}@media (max-width:860px){.fc{grid-template-columns:1fr 1fr}}@media (max-width:520px){.fc{grid-template-columns:1fr}}
@@ -123,6 +150,7 @@ footer h3{color:#fff;font-size:15px;margin-bottom:12px}footer a{display:block;te
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="mk" viewBox="35 252 305 206"><rect x="35" y="252" width="305" height="36"/><rect x="35" y="336" width="218" height="36"/><rect x="35" y="421" width="132" height="37"/><polygon points="322,328 340,328 340,346 238,458 196,458"/></symbol></defs></svg>
 
 <nav aria-label="Main">
@@ -194,12 +222,12 @@ footer h3{color:#fff;font-size:15px;margin-bottom:12px}footer a{display:block;te
  <p style="margin-top:32px"><a class="btn g" href="#register">Register your interest</a></p>
 </div></section>
 
-<section id="venue"><div class="wrap">
+<section id="venue" class="venue-full"><div class="wrap">
  <h2>Venue</h2>
  <h3 id="vName" style="font-size:26px;margin-top:8px"></h3>
  <p class="lead" id="vText"></p>
  <p style="margin-top:24px"><a class="btn n" href="https://maps.app.goo.gl/nzh8XCaqYiuF83wZ6" target="_blank" rel="noopener noreferrer">Get directions</a></p>
- <figure class="vimg"><img src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/44955208.jpg" alt="Erbil Rotana Hotel exterior" loading="lazy" decoding="async"><figcaption>Erbil Rotana Hotel</figcaption></figure>
+ <figure class="vimg"><img src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/44955208.png" alt="Erbil Rotana Hotel exterior" loading="lazy" decoding="async"><figcaption>Erbil Rotana Hotel</figcaption></figure>
 </div></section>
 
 <section class="grey"><div class="wrap"><h2>Organised by Above The Line</h2></div></section>
@@ -231,6 +259,8 @@ footer h3{color:#fff;font-size:15px;margin-bottom:12px}footer a{display:block;te
  <h2>Frequently asked questions</h2><div id="faqL" style="margin-top:28px"></div>
 </div></section>
 </main>
+
+<button id="toTop" type="button" aria-label="Back to top">↑</button>
 
 <footer id="contact"><div class="wrap">
  <div class="fc">
@@ -330,6 +360,33 @@ function sendRegistration(mode){
 }
 f.addEventListener("submit",function(e){e.preventDefault();sendRegistration("wa")});
 emailBtn.addEventListener("click",function(){sendRegistration("email")});
+
+/* luxury scroll motion */
+document.body.classList.add("js-ready");
+var progress=$("scrollProgress"),topBtn=$("toTop"),nav=document.querySelector("nav");
+function updateScrollUI(){
+ var max=document.documentElement.scrollHeight-window.innerHeight;
+ progress.style.width=(max>0?Math.min(100,window.scrollY/max*100):0)+"%";
+ nav.classList.toggle("scrolled",window.scrollY>18);
+ topBtn.classList.toggle("show",window.scrollY>520);
+}
+window.addEventListener("scroll",updateScrollUI,{passive:true});
+updateScrollUI();
+topBtn.addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"})});
+
+var motionItems=[];
+document.querySelectorAll("main section > .wrap, footer .fc > div, .vimg, .fb").forEach(function(el){
+ el.classList.add("reveal");motionItems.push(el);
+});
+document.querySelectorAll(".grid,.stats,.av2,.form-actions").forEach(function(group){
+ group.querySelectorAll(":scope > *").forEach(function(el,i){el.classList.add("reveal");el.style.transitionDelay=(i*90)+"ms";motionItems.push(el)});
+});
+var observer="IntersectionObserver" in window?new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add("visible");observer.unobserve(entry.target)}})},{threshold:.14,rootMargin:"0px 0px -8% 0px"}):null;
+if(observer)motionItems.forEach(function(el){observer.observe(el)});else motionItems.forEach(function(el){el.classList.add("visible")});
+
+var sectionLinks=[].slice.call(document.querySelectorAll('.links a[href^="#"]')).filter(function(a){return $(a.getAttribute("href").slice(1))});
+var sectionObserver="IntersectionObserver" in window?new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){sectionLinks.forEach(function(a){a.classList.toggle("active",a.getAttribute("href")==="#"+entry.target.id)})}})},{rootMargin:"-35% 0px -55% 0px",threshold:0}):null;
+if(sectionObserver)sectionLinks.forEach(function(a){sectionObserver.observe($(a.getAttribute("href").slice(1)))});
 </script>
 </body>
 </html>
