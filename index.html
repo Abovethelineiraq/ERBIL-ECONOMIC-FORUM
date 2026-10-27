@@ -51,6 +51,23 @@ h1{font-size:clamp(40px,7.4vw,82px);line-height:1.03;letter-spacing:-.035em;font
 .facts small{display:block;color:#9fb0d6;font-size:14px}.facts b{font-size:20px;font-weight:600}
 #cd{display:flex;gap:10px;margin-top:36px}#cd div{background:rgba(255,255,255,.08);border-radius:12px;padding:10px 16px;min-width:76px;text-align:center}
 #cd b{display:block;font-size:30px;line-height:1.1}#cd span{font-size:13px;color:#9fb0d6}
+/* hero (simplified) */
+.hero{min-height:calc(100vh - 68px);min-height:calc(100svh - 68px);display:flex;align-items:center;padding:64px 0}
+.hero .wrap{width:100%}
+.logos2{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:28px;margin-bottom:44px}
+.logos2 .main{height:96px;width:auto;max-width:44vw;display:block}
+.logos2 .sep{width:1px;height:64px;background:rgba(255,255,255,.28)}
+.logos2 .gov{background:#fff;border-radius:14px;padding:10px 14px;display:flex}
+.logos2 .gov img{height:68px;width:auto;max-width:36vw;display:block}
+@media (max-width:520px){.logos2{gap:18px}.logos2 .sep{display:none}.logos2 .main{height:72px}.logos2 .gov img{height:52px}}
+.hero h1{font-size:clamp(34px,6vw,64px);max-width:none;margin:0 0 16px}
+.lab{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--sky);font-size:15px;margin:0 0 22px}
+.lab span{width:40px;height:1px;background:rgba(143,180,255,.55)}
+.hero .sub{margin:0 auto 34px;max-width:36ch;font-size:clamp(18px,2.2vw,22px)}
+.info{background:var(--navy);color:#fff;border-radius:24px;padding:32px}
+.info #cd{margin:0 0 24px}
+.info dl{margin:0}.info dl div{padding:14px 0;border-top:1px solid rgba(255,255,255,.16)}
+.info dt{font-size:14px;color:#9fb0d6}.info dd{margin:0;font-size:19px;font-weight:600}
 /* sections */
 section{padding:104px 0}.grey{background:var(--grey)}
 h2{font-size:clamp(30px,4.6vw,48px);line-height:1.1;letter-spacing:-.025em;font-weight:800;margin:0 0 16px}
@@ -71,12 +88,9 @@ h3{font-size:20px;line-height:1.3;margin:0 0 8px}
 .av2 div{border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:26px;background:rgba(255,255,255,.05)}
 .av2 b{display:block;font-size:20px;margin-bottom:6px}.av2 span{color:var(--sky);font-size:17px}
 /* venue / trust / faq */
-.gal{position:relative;margin-top:48px;padding-bottom:9%}
-.gal figure{margin:0;position:relative}
-.gal img{display:block;width:100%;height:auto;border-radius:20px;box-shadow:0 10px 30px rgba(16,29,58,.18)}
-.gal .m{width:80%}.gal .s{position:absolute;right:0;bottom:0;width:42%}.gal .s img{border:6px solid #fff}
-.gal figcaption{position:absolute;left:14px;bottom:14px;background:rgba(16,29,58,.88);color:#fff;font-size:14px;font-weight:600;padding:4px 14px;border-radius:99px}
-@media (max-width:700px){.gal{padding-bottom:0;display:grid;gap:16px}.gal .m,.gal .s{position:relative;width:100%}.gal .s img{border:0}}
+.vimg{margin:48px 0 0;position:relative;max-width:880px}
+.vimg img{display:block;width:100%;height:auto;border-radius:20px;box-shadow:0 10px 30px rgba(16,29,58,.18);border:1px solid var(--line)}
+.vimg figcaption{position:absolute;left:16px;bottom:16px;background:rgba(16,29,58,.88);color:#fff;font-size:14px;font-weight:600;padding:4px 14px;border-radius:99px}
 details{border-bottom:1px solid var(--line);padding:18px 0}summary{cursor:pointer;font-weight:600;font-size:19px;list-style:none;display:flex;justify-content:space-between;gap:16px}
 summary::after{content:"+";color:var(--navy);font-size:26px;line-height:1}details[open] summary::after{content:"–"}details p{margin:12px 0 0;color:var(--mute)}
 /* form */
@@ -114,18 +128,36 @@ footer h3{color:#fff;font-size:15px;margin-bottom:12px}footer a{display:block;te
 <header class="hero" id="top">
  <svg class="pat" fill="#fff" viewBox="35 252 305 206" aria-hidden="true"><use href="#mk"/></svg>
  <div class="wrap">
-  <p class="kick">Erbil Economic Forum · 23 November 2026</p>
-  <h1>Gathering ideas. Connecting sectors. Shaping dialogue.</h1>
-  <p class="sub">Where government, business leaders and investors meet to shape the economic future of the Kurdistan Region.</p>
-  <div class="cta"><a class="btn g" href="#register">Register your interest</a><a class="btn o" href="#about">Explore the forum</a></div>
-  <div id="cd" aria-label="Countdown to the forum" hidden></div>
-  <ul class="facts">
-   <li><small>Date</small><b id="f-date"></b></li><li><small>Venue</small><b id="f-venue"></b></li><li><small>Location</small><b id="f-loc"></b></li><li><small>Organised by</small><b>Above The Line (ATL)</b></li>
-  </ul>
+  <div class="logos2">
+   <img class="main" src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/LOGO.png" alt="Erbil Economic Forum logo">
+   <span class="sep" aria-hidden="true"></span>
+   <div class="gov"><img src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/logo2.png" alt="Government logo"></div>
+  </div>
+  <h1>Erbil Economic Forum</h1>
+  <p class="lab"><span></span>A public–private economic forum<span></span></p>
+  <p class="sub">A one-day forum shaping the economic future of the Kurdistan Region.</p>
+  <a class="btn g" href="#register">Register your interest</a>
  </div>
 </header>
 
 <main id="main">
+<section id="overview"><div class="wrap two">
+ <div>
+  <h2>Gathering ideas. Connecting sectors. Shaping dialogue.</h2>
+  <p class="lead">Government, business leaders and investors meet for one day of economic dialogue to promote investment and strengthen cooperation between the public and private sectors.</p>
+  <p style="margin-top:28px"><a class="btn n" href="#register">Register your interest</a></p>
+ </div>
+ <div class="info">
+  <div id="cd" aria-label="Countdown to the forum" hidden></div>
+  <dl>
+   <div><dt>Date</dt><dd id="f-date"></dd></div>
+   <div><dt>Venue</dt><dd id="f-venue"></dd></div>
+   <div><dt>Location</dt><dd id="f-loc"></dd></div>
+   <div><dt>Organised by</dt><dd>Above The Line (ATL)</dd></div>
+  </dl>
+ </div>
+</div></section>
+
 <section id="about"><div class="wrap two">
  <div>
   <h2>A platform for economic dialogue</h2>
@@ -153,10 +185,7 @@ footer h3{color:#fff;font-size:15px;margin-bottom:12px}footer a{display:block;te
  <h3 id="vName" style="font-size:26px;margin-top:8px"></h3>
  <p class="lead" id="vText"></p>
  <p style="margin-top:24px"><a class="btn n" href="https://maps.app.goo.gl/nzh8XCaqYiuF83wZ6" target="_blank" rel="noopener noreferrer">Get directions</a></p>
- <div class="gal">
-  <figure class="m"><img src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/upscalemedia-transformed.png" alt="Erbil Rotana Hotel exterior entrance" loading="lazy" decoding="async"><figcaption>Venue Entrance</figcaption></figure>
-  <figure class="s"><img src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/upscalemedia-transformed%20%281%29.png" alt="Erbil Rotana Hotel event hall" loading="lazy" decoding="async"><figcaption>Event Hall</figcaption></figure>
- </div>
+ <figure class="vimg"><img src="https://raw.githubusercontent.com/Abovethelineiraq/ERBIL-ECONOMIC-FORUM/main/44955208.jpg" alt="Erbil Rotana Hotel exterior" loading="lazy" decoding="async"><figcaption>Erbil Rotana Hotel</figcaption></figure>
 </div></section>
 
 <section class="grey"><div class="wrap"><h2>Organised by Above The Line</h2></div></section>
